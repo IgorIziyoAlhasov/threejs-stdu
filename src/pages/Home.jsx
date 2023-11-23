@@ -1,12 +1,11 @@
-import React, { Suspense, useRef, useEffect } from 'react';
+import React, { Suspense, useRef, useEffect, useState } from 'react';
 import { Canvas, events } from '@react-three/fiber';
 import Loader from '../components/Loader';
-import Island from '../models/Island';
-import SkySphere from '../models/SkySphere';
-import Bird from '../models/Bird';
-import { Plane } from '@react-three/drei';
+import { Island, SkySphere, Bird, Plane } from '../models';
 
 const Home = () => {
+  const [isRotating, setIsRotating] = useState(false);
+
   const adjustIslandForScreenDimensions = () => {
     let screenScale = null;
     let screenPosition = [0, -6.5, -43];
@@ -18,33 +17,28 @@ const Home = () => {
 
     return [screenScale, screenPosition, rotation];
   }
+
   const [islandScale, islandPosition, islandRotation] = adjustIslandForScreenDimensions();
 
-  const scrollContainerRef = useRef(null);
-  useEffect(() => {
-    const handleWheel = (event) => {
-      event.preventDefault();
-      const { deltaY } = event;
 
-      if (deltaY > 0) {
-        console.log('Scrolling down');
+  const adjustPlaneForScreenDimensions = () => {
+    let screenScale = null;
+    let screenPosition = [0, -6.5, -43];
+    let rotation = [0, 20, 0]
 
-        // Perform actions for scrolling down
-      } else if (deltaY < 0) {
-        console.log('Scrolling up');
-        // Perform actions for scrolling up
-      }
-    };
+    window.innerWidth < 768 ?
+      (
+        screenScale = [1.5, 1.5, 1.5],
+        screenPosition = [0, -1.5, 0]
+      ) : (
+        screenScale = [1, 1, 1],
+        screenPosition = [0, -4, -4]
+      );
 
-    const scrollContainer = scrollContainerRef.current;
-    if (scrollContainer) {
-      scrollContainer.addEventListener('wheel', handleWheel, { passive: false });
+    return [screenScale, screenPosition, rotation];
+  }
+  const [planedScale, planePosition, planeRotation] = adjustPlaneForScreenDimensions();
 
-      return () => {
-        scrollContainer.removeEventListener('wheel', handleWheel);
-      };
-    }
-  }, []);
 
 
   return (
@@ -53,9 +47,8 @@ const Home = () => {
         content goes here
       </div> */}
       <Canvas
-        className='w-full h-screen bg-transparent'
+        className={`w-full h-screen bg-transparent ${isRotating ? 'cursor-grabbing' : 'cursor-grab'}`}
         camera={{ near: 0.1, far: 1000 }}
-        ref={scrollContainerRef}
       >
         <Suspense
           fallback={<Loader />}
@@ -69,13 +62,20 @@ const Home = () => {
           <Bird />
 
           <Island
+            isRotating={isRotating}
+            setIsRotating={setIsRotating}
             position={islandPosition}
             scale={islandScale}
             rotation={islandRotation}
           />
 
 
-          <Plane />
+          <Plane
+            position={planePosition}
+            scale={planedScale}
+            rotation={planeRotation}
+            isRotating={isRotating}
+          />
         </Suspense>
       </Canvas>
     </section>

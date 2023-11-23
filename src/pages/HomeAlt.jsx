@@ -1,8 +1,7 @@
 import React, { Suspense, useRef, useEffect } from 'react';
 import { Canvas, events } from '@react-three/fiber';
 import Loader from '../components/Loader';
-import IslandEmpty from '../models/IslandEmpty';
-import Castle from '../models/Castle';
+import { CastleFraction, Island } from '../models';
 
 const HomeAlt = () => {
   const castleScales = .37;
@@ -63,12 +62,12 @@ const HomeAlt = () => {
           <ambientLight intensity={0.5} />
           <hemisphereLight skyColor="#b1e1ff" groundColor="#000000" intensity={1} />
 
-          <Castle
+          <CastleFraction
             position={[0,-6.5,-40]}
             rotation={[0.2, 5.5, 0]}
             scale={[castleScales, castleScales, castleScales]}
           />
-          <IslandEmpty
+          <Island
             position={islandPosition}
             scale={islandScale}
             rotation={islandRotation}

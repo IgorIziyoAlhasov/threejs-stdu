@@ -1,20 +1,18 @@
-import { useRef, useEffect } from "react";
-import { useGLTF } from "@react-three/drei";
-import { useFrame, useThree } from "@react-three/fiber";
-import castleObject from '../assets/3d/castle.glb';
-import { a } from '@react-spring/three';
+import { useRef, useEffect } from 'react';
+import { useGLTF } from '@react-three/drei';
+import { useFrame, useThree } from '@react-three/fiber';
+import castlefractionScene from '../assets/3d/castle.glb';
 
-const Castle = (props) => {
-    const castleRef = useRef();
-    const { nodes, materials } = useGLTF(castleObject);
+const CastleFraction = (props) => {
+    const castlefractionRef = useRef();
+    const { scene, animations } = useGLTF(castlefractionScene);
+    const sceneScale = .37;
+
     return (
-        <a.group {...props} ref={castleRef}>
-            <mesh
-                geometry={nodes.imagetostl_mesh0.geometry}
-                material={materials.mat0}
-            />
-        </a.group>
-    );
+        <mesh {...props} ref={castlefractionRef}>
+            <primitive object={scene}/>
+        </mesh>
+    )
 }
 
-export default Castle
+export default CastleFraction;

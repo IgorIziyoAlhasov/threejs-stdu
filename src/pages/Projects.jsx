@@ -1,18 +1,19 @@
 import React, { Suspense } from 'react';
 import { Canvas } from '@react-three/fiber';
 import Loader from '../components/Loader';
+import { CastleFraction } from '../models';
 // import Island from '../models/Island';
-import Castle from '../models/Castle';
 
 const Projects = () => {
   const adjustCastleForScreenDimensions = () => {
     let screenScale = null;
-    let screenPosition = [0, -20, -120];
+    let screenPosition = [0, -6.5, -43];;
     let rotation = [0.55, 5.5, 0]
+    let fullScale = .37
 
     window.innerWidth < 768 ?
-      screenScale = [0.9, 0.9, 0.9] :
-      screenScale = [1, 1, 1];
+      screenScale = [fullScale * 0.9, fullScale * 0.9, fullScale * 0.9] :
+      screenScale = [fullScale, fullScale, fullScale];
 
     return [screenScale, screenPosition, rotation];
   }
@@ -35,7 +36,7 @@ const Projects = () => {
           <spotLight />
           <hemisphereLight />
 
-          <Castle
+          <CastleFraction
             position={castlePosition}
             scale={castleScale}
             rotation={castleRotation}
