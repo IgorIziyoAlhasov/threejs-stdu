@@ -2,6 +2,7 @@ import React, { Suspense, useRef, useEffect, useState } from 'react';
 import { Canvas, events } from '@react-three/fiber';
 import Loader from '../components/Loader';
 import { Island, SkySphere, Bird, Plane } from '../models';
+import HomeInfo from '../components/HomeInfo';
 
 const Home = () => {
   const [isRotating, setIsRotating] = useState(false);
@@ -29,7 +30,7 @@ const Home = () => {
 
     window.innerWidth < 768
       ? ((screenScale = [1.5, 1.5, 1.5]), (screenPosition = [0, -1.5, 0]))
-      : ((screenScale = [1, 1, 1]), (screenPosition = [0, -4, -4]));
+      : ((screenScale = [2, 2, 2]), (screenPosition = [0, -4, -4]));
 
     return [screenScale, screenPosition, rotation];
   };
@@ -38,13 +39,12 @@ const Home = () => {
 
   return (
     <section className="w-full h-screen relative">
-      {/* <div className="absolute top-28 left-0 right-0 z-20 flex items-center justify-center">
-        content goes here
-      </div> */}
+      <div className="absolute top-28 left-0 right-0 z-20 flex items-center justify-center">
+        {currentStage && <HomeInfo currentStage={currentStage} />}
+      </div>
       <Canvas
-        className={`w-full h-screen bg-transparent ${
-          isRotating ? 'cursor-grabbing' : 'cursor-grab'
-        }`}
+        className={`w-full h-screen bg-transparent ${isRotating ? 'cursor-grabbing' : 'cursor-grab'
+          }`}
         camera={{ near: 0.1, far: 1000 }}
       >
         <Suspense fallback={<Loader />}>
@@ -56,9 +56,13 @@ const Home = () => {
             intensity={1}
           />
 
-          <Bird />
+          <Bird
+            isRotating={isRotating}
+          />
 
-          <SkySphere />
+          <SkySphere
+            isRotating={isRotating}
+          />
 
           <Island
             isRotating={isRotating}
