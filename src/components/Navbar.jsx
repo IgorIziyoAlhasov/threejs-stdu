@@ -11,17 +11,17 @@ const Navbar = () => {
           About
         </NavLink>
 
-        <NavLink to="/testing" className={({ isActive }) => isActive ? 'text-blue-500' : 'text-black'}>
+        {/* <NavLink to="/testing" className={({ isActive }) => isActive ? 'text-blue-500' : 'text-black'}>
           Tester
-        </NavLink>
+        </NavLink> */}
 
         <NavLink to="/projects" className={({ isActive }) => isActive ? 'text-blue-500' : 'text-black'}>
           Projects
         </NavLink>
 
-        {/* <NavLink to="/contact" className={({ isActive }) => isActive ? 'text-blue-500' : 'text-black'}>
+        <NavLink to="/contact" className={({ isActive }) => isActive ? 'text-blue-500' : 'text-black'}>
           Contact
-        </NavLink> */}
+        </NavLink>
       </nav>
     </header>
   )
