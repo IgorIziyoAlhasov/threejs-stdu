@@ -1,5 +1,5 @@
 import emailjs from '@emailjs/browser';
-import { Loader } from '@react-three/drei';
+import Loader from '../components/Loader';
 import React, { Suspense, useRef, useState } from 'react';
 // import {Fox} from '../models';
 import { Canvas } from '@react-three/fiber';
@@ -41,8 +41,11 @@ const Contact = () => {
     ).then(() => {
       setIsLoading(false);
       //TODO: success msg and hide it
-      setCurrentAnimation('idle');
-      setForm({ name: '', email: '', message: '' });
+      setTimeout(() => {
+        setCurrentAnimation('idle');
+        setForm({ name: '', email: '', message: '' });
+      }, 3000);
+
     }).catch((err) => {
       setIsLoading(false);
       console.log(err);
@@ -118,17 +121,33 @@ const Contact = () => {
       </div>
       <div className="lg:w-1/2 w-full lg:h-auto md:h-[550px] h-[350px]">
         <Canvas
-          camera={{ position: [0, 0, 5], fov: 75, near: .1, far: 1000 }}>
-          <directionalLight position={[0, 0, 1]} intensity={2} />
-          <ambientLight intensity={0.5} />
-          <Suspense
-            fallback={<Loader />}>
+          camera={{
+            position: [0, 0, 5],
+            fov: 75,
+            near: 0.1,
+            far: 1000,
+          }}
+        >
+          <directionalLight position={[0, 0, 1]} intensity={2.5} />
+          <ambientLight intensity={1} />
+          <pointLight position={[5, 10, 0]} intensity={2} />
+          <spotLight
+            position={[10, 10, 10]}
+            angle={0.15}
+            penumbra={1}
+            intensity={2}
+          />
+
+          <Suspense fallback={<Loader />}>
             <Fox
               currentAnimation={currentAnimation}
-              rotation={[12.6, -.6, 0]}
-              position={[.5, .35, 0]} />
+              position={[0.5, 0.35, 0]}
+              rotation={[12.629, -0.6, 0]}
+              scale={[0.5, 0.5, 0.5]}
+            />
           </Suspense>
         </Canvas>
+
       </div>
     </section>
   );

@@ -4,18 +4,21 @@ import { useFrame, useThree } from '@react-three/fiber';
 import foxScene from '../assets/3d/fox.glb';
 
 const Fox = ({ currentAnimation, ...props }) => {
-    const foxRef = useRef();
+    const group = useRef();
     const { nodes, materials, animations } = useGLTF(foxScene);
-    const { actions } = useAnimations(animations, foxRef);
+    const { actions } = useAnimations(animations, group);
     const sceneScale = 0.5;
 
 
     useEffect(() => {
-
+        Object.values(actions).forEach(action => action.stop());
+        if(actions[currentAnimation]){
+            actions[currentAnimation].play();
+        }
     }, [actions, currentAnimation]);
 
     return (
-        <group ref={foxRef} scale={[sceneScale, sceneScale, sceneScale]} {...props} dispose={null}>
+        <group ref={group} scale={[sceneScale, sceneScale, sceneScale]} {...props} dispose={null}>
             <group name="Sketchfab_Scene">
                 <primitive object={nodes.GLTF_created_0_rootJoint} />
                 <skinnedMesh
