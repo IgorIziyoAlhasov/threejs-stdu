@@ -4,6 +4,7 @@ import React, { Suspense, useRef, useState } from 'react';
 // import {Fox} from '../models';
 import { Canvas } from '@react-three/fiber';
 import Fox from '../models/Fox';
+import useAlert from '../hooks/useAlert';
 
 const Contact = () => {
   const formRef = useRef(null);
@@ -11,47 +12,51 @@ const Contact = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [currentAnimation, setCurrentAnimation] = useState('idle');
 
+  const { alert, showAlert, hideAlert } = useAlert();
+
   /**
-   * 
-   * @param {Event} event 
+   *
+   * @param {Event} event
    */
   const handleChange = (event) => {
     setForm({ ...form, [event.target.name]: event.target.value });
   };
   /**
-   * 
-   * @param {Event} event 
+   *
+   * @param {Event} event
    */
   const handleSubmit = (event) => {
     event.preventDefault();
     setIsLoading(true);
     setCurrentAnimation('hit');
 
-    emailjs.send(
-      import.meta.env.VITE_APP_EMAILJS_SERVICE_ID,
-      import.meta.env.VITE_APP_EMAILJS_TEMPLATE_ID,
-      {
-        from_name: form.name,
-        to_name: 'Igor',
-        from_email: form.email,
-        to_email: 'igor.akira.yuki@gmail.com',
-        message: form.message
-      },
-      import.meta.env.VITE_APP_EMAILJS_PUBLIC_KEY
-    ).then(() => {
-      setIsLoading(false);
-      //TODO: success msg and hide it
-      setTimeout(() => {
+    emailjs
+      .send(
+        import.meta.env.VITE_APP_EMAILJS_SERVICE_ID,
+        import.meta.env.VITE_APP_EMAILJS_TEMPLATE_ID,
+        {
+          from_name: form.name,
+          to_name: 'Igor',
+          from_email: form.email,
+          to_email: 'igor.akira.yuki@gmail.com',
+          message: form.message,
+        },
+        import.meta.env.VITE_APP_EMAILJS_PUBLIC_KEY
+      )
+      .then(() => {
+        setIsLoading(false);
+        //TODO: success msg and hide it
+        setTimeout(() => {
+          setCurrentAnimation('idle');
+          setForm({ name: '', email: '', message: '' });
+        }, 3000);
+      })
+      .catch((err) => {
+        setIsLoading(false);
+        console.log(err);
+        //TODO: success msg and hide it
         setCurrentAnimation('idle');
-        setForm({ name: '', email: '', message: '' });
-      }, 3000);
-
-    }).catch((err) => {
-      setIsLoading(false);
-      console.log(err);
-      //TODO: success msg and hide it
-      setCurrentAnimation('idle');
-    })
+      });
   };
   const handleFocus = () => setCurrentAnimation('walk');
   const handleBlur = () => setCurrentAnimation('idle');
@@ -147,7 +152,6 @@ const Contact = () => {
             />
           </Suspense>
         </Canvas>
-
       </div>
     </section>
   );
