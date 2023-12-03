@@ -5,6 +5,7 @@ import React, { Suspense, useRef, useState } from 'react';
 import { Canvas } from '@react-three/fiber';
 import Fox from '../models/Fox';
 import useAlert from '../hooks/useAlert';
+import Alert from '../components/Alert';
 
 const Contact = () => {
   const formRef = useRef(null);
@@ -46,7 +47,14 @@ const Contact = () => {
       .then(() => {
         setIsLoading(false);
         //TODO: success msg and hide it
+        showAlert({
+          show: true,
+          text: 'Message sent successfully!',
+          type: 'success'
+        });
+
         setTimeout(() => {
+          hideAlert();
           setCurrentAnimation('idle');
           setForm({ name: '', email: '', message: '' });
         }, 3000);
@@ -56,12 +64,18 @@ const Contact = () => {
         console.log(err);
         //TODO: success msg and hide it
         setCurrentAnimation('idle');
+        showAlert({
+          show: true,
+          text: `I didn't got your message!`,
+          type: 'danger',
+        })
       });
   };
   const handleFocus = () => setCurrentAnimation('walk');
   const handleBlur = () => setCurrentAnimation('idle');
   return (
     <section className="relative flex lg:flex-row flex-col max-container">
+      { alert.show && <Alert {...alert}/> }
       <div className="flex-1 min-w-[50%] flex flex-col">
         <h1 className="head-text">Talk to me</h1>
         <form
