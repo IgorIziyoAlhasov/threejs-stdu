@@ -2,6 +2,7 @@ import React from 'react';
 import { skills, experiences } from '../constants';
 import { VerticalTimeline, VerticalTimelineElement } from 'react-vertical-timeline-component';
 import 'react-vertical-timeline-component/style.min.css';
+import CTA from '../components/CTA';
 
 
 const About = () => {
@@ -12,7 +13,9 @@ const About = () => {
 
 
       <div className="flex mt-5 flex-col gap-3 text-slate-500">
-        <p>some text about me here</p>
+        <p className='indent-3'>Experienced Front-End web developer with deep knowledge of web technologies, frameworks and libraries (like jQuery, Backbone.js, Underscore.js)</p>
+        <p className='indent-3'>A true JavaScript master with proven advanced experience with popular JavaScript OOP Design Patterns.</p>
+        <p className='indent-3'>Team player with good listening skills and innovative ideas to provide the best solution out for the success of the product</p>
       </div>
 
       <div className="flex py-10 flex-col">
@@ -93,6 +96,10 @@ const About = () => {
           </VerticalTimeline>
         </div>
       </div>
+
+      <hr className='border-slate-200' />
+
+      <CTA />
     </section>
   )
 }

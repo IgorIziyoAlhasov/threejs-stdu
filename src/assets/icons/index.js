@@ -28,7 +28,13 @@ import soundon from './soundon.png'
 import soundoff from './soundoff.png'
 import jira from './jira.svg';
 import unity from './unity.svg';
+import servicenow from './servicenow.svg'
+import mishloha from './mishloha.svg'
+import anyclip from './anyclip.jpg'
 export {
+    anyclip,
+    mishloha,
+    servicenow,
     unity,
     jira,
     css,
